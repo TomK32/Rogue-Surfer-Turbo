@@ -20,19 +20,21 @@ public class MapGenerator : MonoBehaviour {
   }
 
   public void BuildMap() {
-    int width = (int)Screen.width / 8;
-    int height = (int)Screen.height / 8;
+    int width = (int)Screen.width / 16;
+    int height = (int)Screen.height / 16;
     float depth = 0.0f;
 
     map = new Map(width, height);
     Color c;
 
-    for (int x = 0; x < width; x++) {
-      for (int y = 0; y < height; y++) {
+    for (int y = 0; y < height; y++) {
+      for (int x = 0; x < width; x++) {
         if (y > height * 0.2) {
           map.tiles[x,y] = new Ocean();
           depth = y * - MAX_DEPTH;
-          c = new Color(0, Random.Range(0, 0.1f), Random.Range(0.9f, 1), 1.0f);
+          float r = (float)y / height;
+          float b = Random.Range(0, r / 32.0f);
+          c = new Color(b, b, Random.Range(0.5f - r/2.0f, 1 - r + 0.2f), 1.0f);
         } else {
           map.tiles[x,y] = new Beach();
           depth = x * MAX_DEPTH/10;
@@ -47,8 +49,8 @@ public class MapGenerator : MonoBehaviour {
   public void BuildTexture() {
     Texture2D texture = new Texture2D(map.width * tileSize, map.height * tileSize);
 
-    for(int x=0; x < map.width; x++) {
-      for(int y=0; y < map.height; y++) {
+    for(int y=0; y < map.height; y++) {
+      for(int x=0; x < map.width; x++) {
         texture.SetPixels(x * tileSize, y * tileSize, tileSize, tileSize, map.GetTile(x,y).color);
       }
     }
