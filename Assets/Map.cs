@@ -8,8 +8,20 @@ public class Tile {
     Rock
   }
   public Vector3 position;
-    
+  public Color[] color;
+
   public Tile() {}
+
+  public void setColor(Color c, int width, int height) {
+    color = new Color[width * height];
+    int i = 0;
+    for (int x=0; x < width; x++) {
+      for (int y=0; y < height; y++) {
+        color[i] = c;
+        i++;
+      }
+    }
+  }
 }
 
 public class Ocean : Tile {
@@ -31,4 +43,7 @@ public class Map {
 
     tiles = new Tile[width,height];
 	}
+  public Tile GetTile(int x, int y) {
+    return tiles[x,y];
+  }
 }
