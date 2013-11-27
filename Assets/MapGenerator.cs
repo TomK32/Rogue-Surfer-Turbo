@@ -20,8 +20,8 @@ public class MapGenerator : MonoBehaviour {
   }
 
   public void BuildMap() {
-    int width = (int)Screen.width / 16;
-    int height = (int)Screen.height / 16;
+    int height = 32;
+    int width = 32 * Screen.width / Screen.height;
     float depth = 0.0f;
 
     map = new Map(width, height);
@@ -29,19 +29,20 @@ public class MapGenerator : MonoBehaviour {
 
     for (int y = 0; y < height; y++) {
       for (int x = 0; x < width; x++) {
+        float r = (float)y / height;
         if (y > height * 0.2) {
-          map.tiles[x,y] = new Ocean();
-          depth = y * - MAX_DEPTH;
-          float r = (float)y / height;
+          map.tiles[y,x] = new Ocean();
+          depth = Random.Range(0.8f, 1.2f) * r * - MAX_DEPTH;
           float b = Random.Range(0, r / 32.0f);
-          c = new Color(b, b, Random.Range(0.5f - r/2.0f, 1 - r + 0.2f), 1.0f);
+          c = new Color(b, b, Random.Range(0.5f - r/2.0f, 1 - r + b), 1.0f);
         } else {
-          map.tiles[x,y] = new Beach();
-          depth = x * MAX_DEPTH/10;
-          c = new Color(Random.Range(0.8f, 1), Random.Range(0.7f, 1), Random.Range(0, 0.1f), 1.0f);
+          map.tiles[y,x] = new Beach();
+          depth = y * MAX_DEPTH/10;
+          float b = 1 - Random.Range(0, (float)y / height);
+          c = new Color(Random.Range(0.8f, 1), b * Random.Range(0.7f, 1), 3 * b * Random.Range(0, 0.1f), 1.0f);
         }
-        map.tiles[x,y].position = new Vector3(x, y, depth);
-        map.tiles[x,y].setColor(c, width, height);
+        map.tiles[y,x].position = new Vector3(x, y, depth);
+        map.tiles[y,x].setColor(c, width, height);
       }
     }
   }
@@ -65,10 +66,6 @@ public class MapGenerator : MonoBehaviour {
 
   // roughly following the TileMap tutorial of Quill18 http://quill18.com/unity_tutorials/
   public void BuildMesh() {
-    if (map == null) {
-      BuildMap();
-    }
-
     Mesh mesh = new Mesh();
     int numVerts = (map.width + 1) * (map.height + 1);
     Vector3[] vertices = new Vector3[numVerts];

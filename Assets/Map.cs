@@ -41,9 +41,9 @@ public class Map {
     width = w;
     height = h;
 
-    tiles = new Tile[width,height];
+    tiles = new Tile[height, width];
 	}
   public Tile GetTile(int x, int y) {
-    return tiles[x,y];
+    return tiles[y,x];
   }
 }

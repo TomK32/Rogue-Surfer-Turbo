@@ -15,11 +15,11 @@ public class SurferPlayercontroller : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
     speed = 0.0f;
-    speedFactors = new float[3] {4.0f, 1.0f, 0.1f};
+    speedFactors = new float[3] {1.0f, 0.25f, 0.025f};
     maxWalkSpeed = Time.fixedDeltaTime * 10;
     rotation = 0.0f;
     state = (int)States.Walking;
-    rotationFactors = new float[3] { 50.0f, 20.0f, 50.0f };
+    rotationFactors = new float[3] { 90.0f, 150.0f, 120.0f };
 
 	  float verticalSize = Camera.main.orthographicSize;
     float horizontalSize = (float) verticalSize * Screen.width / Screen.height;
