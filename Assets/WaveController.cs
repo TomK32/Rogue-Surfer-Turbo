@@ -3,7 +3,9 @@ using System.Collections;
 
 public class WaveController : MonoBehaviour {
   public float speed;
-  public Vector2 direction;
+  public Vector3 direction;
+  public Sprite[] sprites;
+
   void Start() {
     speed = 1.0f;
     direction = new Vector2(-0.2f, -1.0f);

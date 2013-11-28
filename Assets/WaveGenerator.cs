@@ -4,7 +4,7 @@ using System.Collections;
 public class WaveGenerator : MonoBehaviour {
 
   public int numberOfWaves;
-  public GameObject[] waveTypes;
+  public Sprite[] waveTypes = new Sprite[3];
   private GameObject[] waves;
   private float dtSinceLastWave;
   private float waveFrequency;
@@ -26,7 +26,9 @@ public class WaveGenerator : MonoBehaviour {
     float verticalSize   = (float) Camera.main.orthographicSize * 2.0f;
     float horizontalSize = (float) verticalSize * Screen.width / Screen.height;
     Vector3 position = new Vector3(Random.Range(0, horizontalSize), verticalSize, 0.0f);
-    GameObject wave = (GameObject) Instantiate(waveTypes[0], position, Quaternion.identity);
+
+    GameObject wave = (GameObject) Instantiate(Resources.Load("Wave"), position, Quaternion.identity);
+    wave.GetComponent<SpriteRenderer>().sprite = waveTypes[Random.Range(0, waveTypes.Length - 1)];
     wave.transform.parent = transform;
   }
 }
