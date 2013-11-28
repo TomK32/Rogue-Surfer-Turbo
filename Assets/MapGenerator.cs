@@ -25,12 +25,20 @@ public class MapGenerator : MonoBehaviour {
     float depth = 0.0f;
 
     map = new Map(width, height);
+    Random.seed = (int)Random.Range(0, 10000);
     Color c;
 
     for (int y = 0; y < height; y++) {
       for (int x = 0; x < width; x++) {
         float r = (float)y / height;
-        if (y > height * 0.2) {
+        float s = Mathf.PerlinNoise(Random.seed * x/15.01f + 0.01f, y/15.01f + 0.01f);
+        if ((r > 0.6f && s > 0.2f && s < 0.3f)) {
+          map.tiles[y,x] = new Rock();
+          depth = Random.Range(0.8f, 1.2f) * r * - MAX_DEPTH;
+          float b = Random.Range(1 - r / 8.0f, 1.0f);
+          c = new Color(1 - b, 1 - Mathf.Sqrt(b), 1 - b, 1.0f);
+          // rocks
+        } else if (r > 0.3f || (r > 0.2f && s > r)) {
           map.tiles[y,x] = new Ocean();
           depth = Random.Range(0.8f, 1.2f) * r * - MAX_DEPTH;
           float b = Random.Range(0, r / 32.0f);

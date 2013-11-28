@@ -32,6 +32,10 @@ public class Beach : Tile {
   public const byte Type = (byte)Tile.Types.Beach;
 }
 
+public class Rock : Tile {
+  public const byte Type = (byte)Tile.Types.Rock;
+}
+
 public class Map {
   public Tile[,] tiles;
   public int width;
