@@ -14,7 +14,7 @@ public class MapGenerator : MonoBehaviour {
   public int seed;
   public Map map;
 
-  void Start() {
+  void Awake() {
     BuildMap();
     BuildMesh();
   }

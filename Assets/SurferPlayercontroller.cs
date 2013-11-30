@@ -2,15 +2,16 @@
 using System.Collections;
 
 public class SurferPlayercontroller : MonoBehaviour {
-  public float speed;
-  public float[] speedFactors;
-  public float maxWalkSpeed;
-  public float rotation;
-  public float[] rotationFactors;
+  public Map map;
+  private float speed;
+  private float[] speedFactors;
+  private float maxWalkSpeed;
+  private float rotation;
+  private float[] rotationFactors;
   private enum States:int { Walking, Paddling, Surfing };
   public Sprite[] stateSprites = new Sprite[3];
   public int state;
-  public float standingTime;
+  private float standingTime;
 
 	// Use this for initialization
 	void Start () {
