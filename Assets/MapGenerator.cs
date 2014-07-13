@@ -25,29 +25,33 @@ public class MapGenerator : MonoBehaviour {
     float depth = 0.0f;
 
     map = new Map(width, height);
-    Random.seed = (int)Random.Range(0, 10000);
+    Random.seed = 10; //(int)Random.Range(0, 10000);
     Color c;
+    // http://www.colourlovers.com/palette/2105064/sands_of_time
+    Color colour_rock = new Color(96/256.0f, 89/256.0f, 81/256.0f, 1.0f);
+    Color colour_ocean = new Color(97/256.0f, 166/256.0f, 171/256.0f, 1.0f);
+    Color colour_sand = new Color(251/256.0f, 238/256.0f, 191/256.0f, 1.0f);
 
     for (int y = 0; y < height; y++) {
+      float y_r = (float)y / height;
       for (int x = 0; x < width; x++) {
-        float r = (float)y / height;
-        float s = Mathf.PerlinNoise(Random.seed * x/15.01f + 0.01f, y/15.01f + 0.01f);
-        if ((r > 0.6f && s > 0.2f && s < 0.3f)) {
-          map.tiles[y,x] = new Rock();
-          depth = Random.Range(0.8f, 1.2f) * r * - MAX_DEPTH;
-          float b = Random.Range(1 - r / 8.0f, 1.0f);
-          c = new Color(1 - b, 1 - Mathf.Sqrt(b), 1 - b, 1.0f);
+        float s = Mathf.PerlinNoise(x/64.0f, y_r*30.0f);
+        if (y_r > 0.6f && s > 0.2f && s < 0.3f) {
           // rocks
-        } else if (r > 0.3f || (r > 0.2f && s > r)) {
+          map.tiles[y,x] = new Rock();
+          depth = Random.Range(0.8f, 1.2f) * y_r * - MAX_DEPTH;
+          float b = 1 - Random.Range(0.6f, 0.8f);
+          c = new Color(b, b, b, 1.0f);
+        } else if (y_r > 0.4f || Mathf.Sin(s) > 0.5f) {
+          // ocean
           map.tiles[y,x] = new Ocean();
-          depth = Random.Range(0.8f, 1.2f) * r * - MAX_DEPTH;
-          float b = Random.Range(0, r / 32.0f);
-          c = new Color(b, b, Random.Range(0.5f - r/2.0f, 1 - r + b), 1.0f);
+          depth = Random.Range(0.8f, 1.2f) * y_r * - MAX_DEPTH;
+          c = colour_ocean * (1.0f - Random.Range(0, 0.1f));
         } else {
+          // beach
           map.tiles[y,x] = new Beach();
           depth = y * MAX_DEPTH/10;
-          float b = 1 - Random.Range(0, (float)y / height);
-          c = new Color(Random.Range(0.8f, 1), b * Random.Range(0.7f, 1), 3 * b * Random.Range(0, 0.1f), 1.0f);
+          c = colour_sand * (1.0f - Random.Range(0, 0.1f));
         }
         map.tiles[y,x].position = new Vector3(x, y, depth);
         map.tiles[y,x].setColor(c, width, height);
