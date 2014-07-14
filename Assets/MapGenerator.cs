@@ -35,14 +35,15 @@ public class MapGenerator : MonoBehaviour {
     for (int y = 0; y < height; y++) {
       float y_r = (float)y / height;
       for (int x = 0; x < width; x++) {
-        float s = Mathf.PerlinNoise(x/64.0f, y_r*30.0f);
-        if (y_r > 0.6f && s > 0.2f && s < 0.3f) {
+        float s_y = Mathf.PerlinNoise(x/64.0f, y_r*32.0f);
+        float s_x = Mathf.PerlinNoise(x*4.0f, y_r/8.0f);
+        if (y_r > 0.6f && s_y > 0.2f && s_y < 0.3f) {
           // rocks
           map.tiles[y,x] = new Rock();
           depth = Random.Range(0.8f, 1.2f) * y_r * - MAX_DEPTH;
           float b = 1 - Random.Range(0.6f, 0.8f);
           c = new Color(b, b, b, 1.0f);
-        } else if (y_r > 0.4f || Mathf.Sin(s) > 0.5f) {
+        } else if (s_x - y_r < 0.3f) {
           // ocean
           map.tiles[y,x] = new Ocean();
           depth = Random.Range(0.8f, 1.2f) * y_r * - MAX_DEPTH;
