@@ -25,7 +25,7 @@ public class MapGenerator : MonoBehaviour {
     float depth = 0.0f;
 
     map = new Map(width, height);
-    transform.position = new Vector3(0, height, 0);
+    transform.position = new Vector3(transform.position.x, height, transform.position.z);
     Random.seed = 10; //(int)Random.Range(0, 10000);
     Color c;
     // http://www.colourlovers.com/palette/2105064/sands_of_time
