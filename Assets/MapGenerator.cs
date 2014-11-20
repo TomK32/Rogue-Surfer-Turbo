@@ -9,7 +9,7 @@ public class MapGenerator : MonoBehaviour {
 
   // Map Generation Parameters
   public const int MAX_DEPTH = 10;
-  public int tileSize = 16;
+  public int tileSize = 4;
 
   public int seed;
   public Map map;
@@ -20,11 +20,12 @@ public class MapGenerator : MonoBehaviour {
   }
 
   public void BuildMap() {
-    int height = 32;
-    int width = 32 * Screen.width / Screen.height;
+    int height = 64;
+    int width = 128;
     float depth = 0.0f;
 
     map = new Map(width, height);
+    transform.position = new Vector3(0, height, 0);
     Random.seed = 10; //(int)Random.Range(0, 10000);
     Color c;
     // http://www.colourlovers.com/palette/2105064/sands_of_time
