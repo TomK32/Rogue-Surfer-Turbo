@@ -15,8 +15,9 @@ public class PlayerGenerator : MonoBehaviour {
     print(GetComponent<MapGenerator>().map);
     Vector3 position = new Vector3(0.0f, 0.0f, 0.0f);
     GameObject player = (GameObject) Instantiate(Resources.Load("Player"), position, Quaternion.identity);
-    player.transform.parent = transform;
     player.GetComponent<SurferPlayercontroller>().map = map;
+    GameObject camera = GameObject.Find("Main Camera");
+    camera.GetComponent<PlayerCamera>().target = player.transform;
   }
   void Update() {
     print(GetComponent<MapGenerator>().map);
