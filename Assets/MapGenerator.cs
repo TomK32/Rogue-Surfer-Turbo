@@ -9,9 +9,9 @@ public class MapGenerator : MonoBehaviour {
 
   // Map Generation Parameters
   public const int MAX_DEPTH = 10;
-  public int tileSize = 4;
+  private int tileSize = 16;
 
-  public int seed;
+  public int seed = 123;
   public Map map;
 
   void Awake() {
@@ -20,12 +20,13 @@ public class MapGenerator : MonoBehaviour {
   }
 
   public void BuildMap() {
-    int height = 64;
-    int width = 128;
+    int height = 28;
+    int width = 48;
+
     float depth = 0.0f;
 
     map = new Map(width, height);
-    transform.position = new Vector3(transform.position.x, height, transform.position.z);
+    //transform.position = new Vector3(transform.position.x, height, transform.position.z);
     Random.seed = 10; //(int)Random.Range(0, 10000);
     Color c;
     // http://www.colourlovers.com/palette/2105064/sands_of_time
@@ -124,8 +125,5 @@ public class MapGenerator : MonoBehaviour {
     mesh.triangles = triangles;
     GetComponent<MeshFilter>().mesh = mesh;
     BuildTexture();
-  }
-
-  void Update () {
   }
 }
