@@ -4,23 +4,22 @@ using System.Collections;
 public class SurferPlayercontroller : MonoBehaviour {
   public Map map;
   private float speed;
-  private float[] speedFactors;
+  public float[] speedFactors = new float[3] {1.0f, 0.25f, 0.025f};
   private float maxWalkSpeed;
   private float rotation;
-  private float[] rotationFactors;
+  private float[] rotationFactors = new float[3] { 10.0f, 5.0f, 20.0f };
   private enum States:int { Walking, Paddling, Surfing };
   public Sprite[] stateSprites = new Sprite[3];
   public int state;
   private float standingTime;
+  private float last_speed;
 
 	// Use this for initialization
 	void Start () {
-    speed = 0.0f;
-    speedFactors = new float[3] {1.0f, 0.25f, 0.025f};
     maxWalkSpeed = Time.fixedDeltaTime * 10;
     rotation = 0.0f;
     state = (int)States.Walking;
-    rotationFactors = new float[3] { 90.0f, 150.0f, 120.0f };
+    speed = speedFactors[state];
 
 	  float verticalSize = Camera.main.orthographicSize;
     float horizontalSize = (float) verticalSize * Screen.width / Screen.height;
@@ -28,21 +27,26 @@ public class SurferPlayercontroller : MonoBehaviour {
 	}
 
   float RotationFactor() {
-    return 360.0f / (Time.fixedDeltaTime * rotationFactors[state]);
+    return rotationFactors[state];
   }
+
   float SpeedFactor() {
     return speedFactors[state];
   }
 
 	// Update is called once per frame
-	void Update () {
-    speed += Input.GetAxis("Vertical");
-    rotation = Input.GetAxis("Horizontal") * Time.deltaTime * RotationFactor();
+	void FixedUpdate () {
+    float input_speed = Input.GetAxis("Vertical") * SpeedFactor();
+    if (last_speed > input_speed)
+      input_speed = 0.0f;
+    last_speed = input_speed;
+    Debug.Log(SpeedFactor());
+    Debug.Log(Input.GetAxis("Vertical"));
+    rotation = Input.GetAxis("Horizontal");
 
-    Vector3 movement = new Vector3(0, 1.0f, 0) * (speed * SpeedFactor() * Time.deltaTime);
-    if (speed != 0.0f && transform.position.y >= 0.0f && transform.position.y < Camera.main.orthographicSize * 2.0f)
-      transform.Translate(movement);
-    transform.Rotate(0, 0, -rotation);
+    rigidbody2D.AddForce(gameObject.transform.up * input_speed);
+
+    transform.Rotate(0, 0, -rotation * RotationFactor());
 
     if (speed <= 0)
       speed = 0;
