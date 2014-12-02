@@ -12,8 +12,8 @@ public class WaveController : MonoBehaviour {
   }
 
   // Update is called once per frame
-	void Update () {
-    transform.Translate(direction * speed * Time.deltaTime);
+	void FixedUpdate () {
+    transform.Translate(direction * speed);
     if (transform.position.y <= 0.0f) {
       Destroy(gameObject);
     }

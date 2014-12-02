@@ -7,7 +7,7 @@ public class SurferPlayercontroller : MonoBehaviour {
   public float[] speedFactors = new float[3] {1.0f, 0.25f, 0.025f};
   private float maxWalkSpeed;
   private float rotation;
-  private float[] rotationFactors = new float[3] { 10.0f, 5.0f, 20.0f };
+  private float[] rotationFactors = new float[3] { 1.0f, 0.5f, 2.0f };
   private enum States:int { Walking, Paddling, Surfing };
   public Sprite[] stateSprites = new Sprite[3];
   public int state;
@@ -40,9 +40,7 @@ public class SurferPlayercontroller : MonoBehaviour {
     if (last_speed > input_speed)
       input_speed = 0.0f;
     last_speed = input_speed;
-    Debug.Log(SpeedFactor());
-    Debug.Log(Input.GetAxis("Vertical"));
-    rotation = Input.GetAxis("Horizontal");
+    rotation = Input.GetAxis("Horizontal") * RotationFactor();
 
     rigidbody2D.AddForce(gameObject.transform.up * input_speed);
 

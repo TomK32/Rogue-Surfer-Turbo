@@ -16,11 +16,6 @@ public class EnforceBoundaries : MonoBehaviour {
     xMin = map.GetComponent<MeshRenderer>().bounds.min.x;
     yMax = map.GetComponent<MeshRenderer>().bounds.max.y;
     yMin = map.GetComponent<MeshRenderer>().bounds.min.y;
-
-    Debug.Log(xMax);
-    Debug.Log(yMax);
-    Debug.Log(xMin);
-    Debug.Log(yMin);
   }
 
 	void Update() {

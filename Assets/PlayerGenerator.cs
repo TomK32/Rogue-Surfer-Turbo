@@ -12,11 +12,11 @@ public class PlayerGenerator : MonoBehaviour {
 
   void PlacePlayer() {
     Map map = GetComponent<MapGenerator>().map;
-    print(GetComponent<MapGenerator>().map);
     Vector3 position = new Vector3(0.0f, 0.0f, 0.0f);
     GameObject player = (GameObject) Instantiate(Resources.Load("Player"), position, Quaternion.identity);
     player.GetComponent<SurferPlayercontroller>().map = map;
     player.GetComponent<EnforceBoundaries>().map = gameObject;
+    player.transform.parent = transform;
   }
 
   void FixedUpdate() {
