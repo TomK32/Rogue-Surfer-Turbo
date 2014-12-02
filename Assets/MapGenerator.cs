@@ -92,7 +92,7 @@ public class MapGenerator : MonoBehaviour {
     i = 0;
     for (y=0; y <= map.height; y++) {
       for (x=0; x <= map.width; x++) {
-        vertices[i] = new Vector3( x * 1.0f, 0, - y * 1.0f);
+        vertices[i] = new Vector3( x * 1.0f, - y * 1.0f, 0);
         normals[i] = Vector3.up;
         uv[i] = new Vector2( (float) x / map.width, 1.0f - (float) y / map.height );
         i++;
