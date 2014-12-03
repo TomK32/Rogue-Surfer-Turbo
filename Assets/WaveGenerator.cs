@@ -4,10 +4,11 @@ using System.Collections;
 public class WaveGenerator : MonoBehaviour {
 
   public int numberOfWaves;
-  public Sprite[] waveTypes = new Sprite[3];
   private GameObject[] waves;
   private float dtSinceLastWave;
   private float waveFrequency;
+  public float maxWaveWidth = 20;
+  public float maxWaveHeight = 5;
 
 	// Use this for initialization
 	void Start () {
@@ -28,7 +29,9 @@ public class WaveGenerator : MonoBehaviour {
     Vector3 position = new Vector3(Random.Range(0, horizontalSize), verticalSize, 0.0f);
 
     GameObject wave = (GameObject) Instantiate(Resources.Load("Wave"), position, Quaternion.identity);
-    wave.GetComponent<SpriteRenderer>().sprite = waveTypes[Random.Range(0, waveTypes.Length - 1)];
+    int width = (int)(Mathf.PerlinNoise(Time.timeSinceLevelLoad, 1) * maxWaveWidth);
+    int height = (int)(Mathf.PerlinNoise(Time.timeSinceLevelLoad, 1) * maxWaveHeight);
+    wave.GetComponent<WaveController>().CreateSprite(width, height);
     wave.transform.parent = transform;
   }
 }
