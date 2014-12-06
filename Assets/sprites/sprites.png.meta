@@ -6,8 +6,10 @@ TextureImporter:
     21300002: wave 1
     21300004: wave 2
     21300006: wave 3
-    21300008: sprites_4
-    21300010: sprites_5
+    21300008: surfing
+    21300010: walking
+    21300012: paddling 1
+    21300014: paddling 2
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -43,7 +45,7 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: .5, y: .5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 50
   alphaIsTransparency: 1
   textureType: 5
   buildTargetSettings: []
@@ -89,7 +91,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: sprites_4
+    - name: surfing
       rect:
         serializedVersion: 2
         x: 10
@@ -99,13 +101,33 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: sprites_5
+    - name: walking
       rect:
         serializedVersion: 2
         x: 10
         y: 178
         width: 40
         height: 73
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: paddling 1
+      rect:
+        serializedVersion: 2
+        x: 54
+        y: 252
+        width: 52
+        height: 97
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: paddling 2
+      rect:
+        serializedVersion: 2
+        x: 117
+        y: 252
+        width: 52
+        height: 97
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
