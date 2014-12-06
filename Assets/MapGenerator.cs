@@ -30,7 +30,7 @@ public class MapGenerator : MonoBehaviour {
     Random.seed = 10; //(int)Random.Range(0, 10000);
     Color c;
     // http://www.colourlovers.com/palette/2105064/sands_of_time
-    Color colour_rock = new Color(96/256.0f, 89/256.0f, 81/256.0f, 1.0f);
+    Color colour_rock = new Color(86/256.0f, 112/256.0f, 126/256.0f, 1.0f);
     Color colour_ocean = new Color(97/256.0f, 166/256.0f, 171/256.0f, 1.0f);
     Color colour_sand = new Color(251/256.0f, 238/256.0f, 191/256.0f, 1.0f);
 
@@ -43,18 +43,17 @@ public class MapGenerator : MonoBehaviour {
           // rocks
           map.tiles[y,x] = new Rock();
           depth = Random.Range(0.8f, 1.2f) * y_r * - MAX_DEPTH;
-          float b = 1 - Random.Range(0.6f, 0.8f);
-          c = new Color(b, b, b, 1.0f);
+          c = colour_rock * Random.Range(0.5f, 1.1f);
         } else if (s_x - y_r < 0.3f) {
           // ocean
           map.tiles[y,x] = new Ocean();
           depth = Random.Range(0.8f, 1.2f) * y_r * - MAX_DEPTH;
-          c = colour_ocean * (1.0f - Random.Range(0, 0.1f));
+          c = colour_ocean * Random.Range(0.9f, 1.0f);
         } else {
           // beach
           map.tiles[y,x] = new Beach();
           depth = y * MAX_DEPTH/10;
-          c = colour_sand * (1.0f - Random.Range(0, 0.1f));
+          c = colour_sand * Random.Range(0.9f, 1.0f);
         }
         map.tiles[y,x].position = new Vector3(x, y, depth);
         map.tiles[y,x].setColor(c, width, height);
