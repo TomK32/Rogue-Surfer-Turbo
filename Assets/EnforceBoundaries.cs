@@ -8,10 +8,6 @@ public class EnforceBoundaries : MonoBehaviour {
   float xMax, xMin, yMax, yMin;
 
   void Start() {
-    Vector3 cameraPosition = Camera.main.transform.position;
-    float dist = Camera.main.aspect * Camera.main.orthographicSize;
-    float sizeX = map.GetComponent<MeshRenderer>().bounds.min.x / 2;
-    float sizeY = map.GetComponent<MeshRenderer>().bounds.min.y / 2;
     xMax = map.GetComponent<MeshRenderer>().bounds.max.x;
     xMin = map.GetComponent<MeshRenderer>().bounds.min.x;
     yMax = map.GetComponent<MeshRenderer>().bounds.max.y;
