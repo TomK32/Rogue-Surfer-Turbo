@@ -33,6 +33,14 @@ public class SurferPlayercontroller : MonoBehaviour {
     return speedFactors[state];
   }
 
+  void OnTriggerEnter2D (Collider2D collider) {
+    if(collider.gameObject.tag == "wave") {
+      GameObject text = (GameObject) Instantiate(Resources.Load("eventtext"), transform.position, Quaternion.identity);
+      text.GetComponent<TextMesh>().text = "Wave";
+      text.transform.parent = transform;
+    }
+  }
+
   void OnTriggerStay2D (Collider2D collider) {
     //collision.gameObject.collider2D.enabled = false;
     rigidbody2D.AddForce(collider.gameObject.GetComponent<WaveController>().ForceOnPlayer() * 10);
