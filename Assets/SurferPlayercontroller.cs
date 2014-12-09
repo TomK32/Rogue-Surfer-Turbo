@@ -9,7 +9,7 @@ public class SurferPlayercontroller : MonoBehaviour {
   private enum States:int { Walking, Paddling, Surfing };
   private float[] speedFactors = new float[3] {10.0f, 0.75f, 0.05f};
   private float[] rotationFactors = new float[3] { 1.0f, 0.5f, 2.0f };
-  private float[] linearDrag = new float[3] { 2.0f, 0.1f, 0.05f };
+  private float[] linearDrag = new float[3] { 2.0f, 1.0f, 0.05f };
 
   public int state;
   private float last_speed;
@@ -33,7 +33,7 @@ public class SurferPlayercontroller : MonoBehaviour {
   }
 
   void OnTriggerEnter2D (Collider2D collider) {
-    if(collider.gameObject.tag == "wave") {
+    if(collider.gameObject.tag == "Wave") {
       GameObject text = (GameObject) Instantiate(Resources.Load("eventtext"), transform.position, Quaternion.identity);
       text.GetComponent<TextMesh>().text = "Wave";
       text.transform.parent = transform;
@@ -41,18 +41,16 @@ public class SurferPlayercontroller : MonoBehaviour {
   }
 
   void OnTriggerStay2D (Collider2D collider) {
-    //collision.gameObject.collider2D.enabled = false;
-    rigidbody2D.AddForce(collider.gameObject.GetComponent<WaveController>().ForceOnPlayer() * 10);
+    rigidbody2D.AddForce(collider.gameObject.GetComponent<WaveController>().ForceOnPlayer() * 20);
   }
 
-	// Update is called once per frame
 	void FixedUpdate () {
     float input_speed = Input.GetAxis("Vertical") * SpeedFactor();
     if (last_speed > input_speed)
       input_speed = 0;
     last_speed = input_speed;
 
-    rigidbody2D.AddForce(gameObject.transform.up * input_speed);
+    rigidbody2D.AddForce(gameObject.transform.up * input_speed, ForceMode2D.Force);
 
     rotation = Input.GetAxis("Horizontal") * RotationFactor();
     transform.Rotate(0, 0, -rotation * RotationFactor());
@@ -65,7 +63,7 @@ public class SurferPlayercontroller : MonoBehaviour {
 
   bool isInOcean() {
     Tile tile = map.GetTile((int)transform.position.x, (int)transform.position.y);
-    return tile.Sort == (int)Tile.Sorts.Ocean;
+    return tile != null && tile.Sort == (int)Tile.Sorts.Ocean;
   }
 
   void ChangeState() {
