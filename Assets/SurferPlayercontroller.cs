@@ -4,21 +4,21 @@ using System.Collections;
 public class SurferPlayercontroller : MonoBehaviour {
   public Map map;
   private float speed;
-  public float[] speedFactors = new float[3] {1.0f, 0.25f, 0.05f};
-  private float maxWalkSpeed;
   private float rotation;
-  private float[] rotationFactors = new float[3] { 1.0f, 0.5f, 2.0f };
+
+  // only the sprites are dealt with in the animations, all other values are set this way
   private enum States:int { Walking, Paddling, Surfing };
-  public Sprite[] stateSprites = new Sprite[3];
+  private float[] speedFactors = new float[3] {10.0f, 0.75f, 0.05f};
+  private float[] rotationFactors = new float[3] { 1.0f, 0.5f, 2.0f };
+  private float[] linearDrag = new float[3] { 2.0f, 0.1f, 0.05f };
+
   public int state;
   private float last_speed;
 
 	// Use this for initialization
 	void Start () {
-    maxWalkSpeed = Time.fixedDeltaTime * 10;
     rotation = 0.0f;
-    state = (int)States.Walking;
-    speed = speedFactors[state];
+    SetState((int)States.Walking);
 
 	  float verticalSize = Camera.main.orthographicSize;
     float horizontalSize = (float) verticalSize * Screen.width / Screen.height;
@@ -52,7 +52,6 @@ public class SurferPlayercontroller : MonoBehaviour {
 	// Update is called once per frame
 	void FixedUpdate () {
     float input_speed = Input.GetAxis("Vertical") * SpeedFactor();
-    Debug.Log(input_speed);
     if (last_speed > input_speed)
       input_speed = 0;
     last_speed = input_speed;
@@ -62,16 +61,24 @@ public class SurferPlayercontroller : MonoBehaviour {
     rotation = Input.GetAxis("Horizontal") * RotationFactor();
     transform.Rotate(0, 0, -rotation * RotationFactor());
 
-    if(Input.GetButtonDown("Stand")) {
-      if(state == (int)States.Walking) {
-        GetComponent<Animator>().Play("Paddling");
-        state = (int)States.Paddling;
-      } else if (state == (int)States.Paddling) {
-        GetComponent<Animator>().Play("Surfing");
-        state = (int)States.Surfing;
-      } else if (state == (int)States.Surfing) {
-        state = (int)States.Paddling;
-      }
-    }
 	}
+
+
+  void ChangeState() {
+    if(state == (int)States.Walking) {
+      GetComponent<Animator>().Play("Paddling");
+      SetState((int)States.Paddling);
+    } else if (state == (int)States.Paddling) {
+      GetComponent<Animator>().Play("Surfing");
+      SetState((int)States.Surfing);
+    } else if (state == (int)States.Surfing) {
+      GetComponent<Animator>().Play("Paddling");
+      SetState((int)States.Paddling);
+    }
+  }
+
+  void SetState(int state) {
+    this.state = state;
+    gameObject.rigidbody2D.drag = this.linearDrag[state];
+  }
 }
