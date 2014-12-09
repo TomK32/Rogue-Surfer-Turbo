@@ -29,9 +29,10 @@ public class WaveGenerator : MonoBehaviour {
     Vector3 position = new Vector3(Random.Range(0, horizontalSize), verticalSize, 0.0f);
 
     GameObject wave = (GameObject) Instantiate(Resources.Load("Wave"), position, Quaternion.identity);
-    int width = (int)(Mathf.PerlinNoise(Time.timeSinceLevelLoad, 1) * maxWaveWidth);
-    int height = (int)(Mathf.PerlinNoise(Time.timeSinceLevelLoad, 1) * maxWaveHeight);
-    wave.GetComponent<WaveController>().CreateSprite(width, height);
+    wave.GetComponent<WaveController>().width = (int)(Mathf.PerlinNoise(Time.timeSinceLevelLoad, 1) * maxWaveWidth);
+    wave.GetComponent<WaveController>().height = (int)(Mathf.PerlinNoise(Time.timeSinceLevelLoad, 1) * maxWaveHeight);
+    wave.GetComponent<WaveController>().Randomize();
+    wave.GetComponent<WaveController>().CreateSprite();
     wave.transform.parent = transform;
   }
 }
