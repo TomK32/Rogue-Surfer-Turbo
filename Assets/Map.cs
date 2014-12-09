@@ -2,13 +2,14 @@
 using System.Collections;
 
 public class Tile {
-  public enum Types:byte {
+  public enum Sorts:int {
     Ocean,
     Beach,
     Rock
   }
   public Vector3 position;
   public Color[] color;
+  public int Sort = -1;
 
   public Tile() {}
 
@@ -25,15 +26,21 @@ public class Tile {
 }
 
 public class Ocean : Tile {
-  public const byte Type = (byte)Tile.Types.Ocean;
+  public Ocean() {
+    this.Sort = (int)Tile.Sorts.Ocean;
+  }
 }
 
 public class Beach : Tile {
-  public const byte Type = (byte)Tile.Types.Beach;
+  public Beach() {
+    this.Sort = (int)Tile.Sorts.Beach;
+  }
 }
 
 public class Rock : Tile {
-  public const byte Type = (byte)Tile.Types.Rock;
+  public Rock() {
+    this.Sort = (int)Tile.Sorts.Rock;
+  }
 }
 
 public class Map {

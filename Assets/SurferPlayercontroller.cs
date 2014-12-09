@@ -61,8 +61,16 @@ public class SurferPlayercontroller : MonoBehaviour {
     rotation = Input.GetAxis("Horizontal") * RotationFactor();
     transform.Rotate(0, 0, -rotation * RotationFactor());
 
+    if(isInOcean() && state == (int)States.Walking)
+      ChangeState();
+    if(Input.GetButtonDown("Stand"))
+      ChangeState();
 	}
 
+  bool isInOcean() {
+    Tile tile = map.GetTile((int)transform.position.x, (int)transform.position.y);
+    return tile.Sort == (int)Tile.Sorts.Ocean;
+  }
 
   void ChangeState() {
     if(state == (int)States.Walking) {
