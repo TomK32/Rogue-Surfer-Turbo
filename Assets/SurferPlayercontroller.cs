@@ -3,7 +3,6 @@ using System.Collections;
 
 public class SurferPlayercontroller : MonoBehaviour {
   public Map map;
-  private float speed;
   private float rotation;
 
   // only the sprites are dealt with in the animations, all other values are set this way
@@ -44,9 +43,6 @@ public class SurferPlayercontroller : MonoBehaviour {
   void OnTriggerStay2D (Collider2D collider) {
     //collision.gameObject.collider2D.enabled = false;
     rigidbody2D.AddForce(collider.gameObject.GetComponent<WaveController>().ForceOnPlayer() * 10);
-    if (state == (int)States.Surfing) {
-      speed += Time.fixedDeltaTime;
-    }
   }
 
 	// Update is called once per frame
@@ -61,7 +57,7 @@ public class SurferPlayercontroller : MonoBehaviour {
     rotation = Input.GetAxis("Horizontal") * RotationFactor();
     transform.Rotate(0, 0, -rotation * RotationFactor());
 
-    if(isInOcean() && state == (int)States.Walking)
+    if(state == (int)States.Walking && isInOcean())
       ChangeState();
     if(Input.GetButtonDown("Stand"))
       ChangeState();
@@ -75,6 +71,7 @@ public class SurferPlayercontroller : MonoBehaviour {
   void ChangeState() {
     if(state == (int)States.Walking) {
       GetComponent<Animator>().Play("Paddling");
+      gameObject.rigidbody2D.velocity = new Vector2(0, 0); // stop all movement
       SetState((int)States.Paddling);
     } else if (state == (int)States.Paddling) {
       GetComponent<Animator>().Play("Surfing");
