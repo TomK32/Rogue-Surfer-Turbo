@@ -12,8 +12,7 @@ public class MapGeneratorInspector : Editor {
 
     if(GUILayout.Button("Regenerate")) {
       MapGenerator map = (MapGenerator)target;
-      map.BuildMap();
-      map.BuildMesh();
+      map.Start();
     }
   }
 }

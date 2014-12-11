@@ -15,8 +15,11 @@ public class MapGenerator : MonoBehaviour {
   public Map map;
 
   void Awake() {
+  }
+  public void Start() {
     BuildMap();
     BuildMesh();
+    BuidColliders();
   }
 
   public void BuildMap() {
@@ -76,6 +79,26 @@ public class MapGenerator : MonoBehaviour {
 
     MeshRenderer mesh_renderer = GetComponent<MeshRenderer>();
     mesh_renderer.sharedMaterials[0].mainTexture = texture;
+  }
+
+  public void BuidColliders() {
+    foreach (Transform child in transform) {
+      if (child.gameObject.tag == "MapCollider") {
+        UnityEngine.Object.Destroy(child.gameObject);
+      }
+    }
+    int x, y;
+    for (y=0; y < map.height; y++) {
+      for (x=0; x < map.width; x++) {
+        string collider_name = map.GetTile(x, y).ColliderPrefabName;
+        Debug.Log(collider_name);
+        if (collider_name != null) {
+          Vector3 position = new Vector3(x, y, 0);
+          GameObject collider = (GameObject)Instantiate(Resources.Load(collider_name), position, Quaternion.identity);
+          collider.transform.parent = transform;
+        }
+      }
+    }
   }
 
   // roughly following the TileMap tutorial of Quill18 http://quill18.com/unity_tutorials/

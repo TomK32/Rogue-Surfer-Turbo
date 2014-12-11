@@ -33,7 +33,7 @@ public class SurferPlayercontroller : MonoBehaviour {
   }
 
   void OnTriggerEnter2D (Collider2D collider) {
-    if(collider.gameObject.tag == "Wave") {
+    if (collider.gameObject.tag == "Wave") {
       GameObject text = (GameObject) Instantiate(Resources.Load("eventtext"), transform.position, Quaternion.identity);
       text.GetComponent<TextMesh>().text = "Wave";
       text.transform.parent = transform;
@@ -55,9 +55,9 @@ public class SurferPlayercontroller : MonoBehaviour {
     rotation = Input.GetAxis("Horizontal") * RotationFactor();
     transform.Rotate(0, 0, -rotation * RotationFactor());
 
-    if(state == (int)States.Walking && isInOcean())
+    if (state == (int)States.Walking && isInOcean())
       ChangeState();
-    if(Input.GetButtonDown("Stand"))
+    if (Input.GetButtonDown("Stand"))
       ChangeState();
 	}
 
@@ -67,7 +67,7 @@ public class SurferPlayercontroller : MonoBehaviour {
   }
 
   void ChangeState() {
-    if(state == (int)States.Walking) {
+    if (state == (int)States.Walking) {
       GetComponent<Animator>().Play("Paddling");
       gameObject.rigidbody2D.velocity = new Vector2(0, 0); // stop all movement
       SetState((int)States.Paddling);

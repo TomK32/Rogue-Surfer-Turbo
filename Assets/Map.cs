@@ -12,6 +12,7 @@ public class Tile {
   public int Sort = -1;
 
   public Tile() {}
+  public string ColliderPrefabName = null;
 
   public void setColor(Color c, int width, int height) {
     color = new Color[width * height];
@@ -40,6 +41,7 @@ public class Beach : Tile {
 public class Rock : Tile {
   public Rock() {
     this.Sort = (int)Tile.Sorts.Rock;
+    this.ColliderPrefabName = "Rock";
   }
 }
 
