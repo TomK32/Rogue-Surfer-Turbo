@@ -13,15 +13,19 @@ public class WaveController : MonoBehaviour {
   private float y_scale = 0.25f;
 
 
-  public void Randomize() {
-    speed = 0.05f;
+  public void Randomize(int width, int height) {
+    this.width = width;
+    this.height = height;
+    speed = 100.0f;
     direction = new Vector3(-0.2f, -1.0f, 0.0f);
     x_scale = Random.Range(x_scale / 2, x_scale * 2);
     y_scale = Random.Range(y_scale / 2, y_scale * 2);
+    CreateSprite();
+    gameObject.rigidbody2D.AddForce(direction * speed);
   }
 
-  public Vector3 ForceOnPlayer() {
-    return direction * speed;
+  public Vector2 ForceOnPlayer() {
+    return new Vector2(direction.x, direction.y) * speed;
   }
 
   public void CreateSprite() {
@@ -42,11 +46,9 @@ public class WaveController : MonoBehaviour {
     GetComponent<BoxCollider2D>().center = new Vector3((width - 1) * x_scale / 2, 0, 0);
   }
 
-  // Update is called once per frame
-	void FixedUpdate () {
-    transform.Translate(direction * speed);
+  void FixedUpdate () {
     if (transform.position.y <= 0.0f) {
       Destroy(gameObject);
     }
-	}
+  }
 }

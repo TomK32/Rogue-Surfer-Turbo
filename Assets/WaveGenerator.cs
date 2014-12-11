@@ -3,36 +3,35 @@ using System.Collections;
 
 public class WaveGenerator : MonoBehaviour {
 
-  public int numberOfWaves;
-  private GameObject[] waves;
   private float dtSinceLastWave;
-  private float waveFrequency;
-  public float maxWaveWidth = 20;
-  public float maxWaveHeight = 5;
+  public float waveFrequency = 5f;
+  public float minWaveWidth = 20;
+  public float maxWaveHeight = 3;
 
 	// Use this for initialization
 	void Start () {
-    waveFrequency = 0.5f;
+    Map map = gameObject.GetComponent<MapGenerator>().map;
 	}
 
-  void Update() {
-    dtSinceLastWave += Time.deltaTime;
-    if(dtSinceLastWave > waveFrequency) {
+  void FixedUpdate() {
+    dtSinceLastWave += Time.fixedDeltaTime;
+    float seed = Mathf.PerlinNoise(Time.timeSinceLevelLoad, Time.timeSinceLevelLoad + 1);
+    if(dtSinceLastWave > waveFrequency * seed) {
       dtSinceLastWave = 0;
-      GenerateWave();
+      GenerateWave(seed);
     }
   }
 
-  void GenerateWave() {
+  void GenerateWave(float seed) {
     float verticalSize   = (float) Camera.main.orthographicSize * 2.0f;
     float horizontalSize = (float) verticalSize * Screen.width / Screen.height;
     Vector3 position = new Vector3(Random.Range(0, horizontalSize), verticalSize, 0.0f);
 
     GameObject wave = (GameObject) Instantiate(Resources.Load("Wave"), position, Quaternion.identity);
-    wave.GetComponent<WaveController>().width = (int)(Mathf.PerlinNoise(Time.timeSinceLevelLoad, 1) * maxWaveWidth);
-    wave.GetComponent<WaveController>().height = (int)(Mathf.PerlinNoise(Time.timeSinceLevelLoad, 1) * maxWaveHeight);
-    wave.GetComponent<WaveController>().Randomize();
-    wave.GetComponent<WaveController>().CreateSprite();
+
+    int width =  (int)(minWaveWidth + seed * minWaveWidth);
+    int height = (int)(maxWaveHeight / 3 + seed * maxWaveHeight);
+    wave.GetComponent<WaveController>().Randomize(width, height);
     wave.transform.parent = transform;
   }
 }
