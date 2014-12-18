@@ -55,6 +55,10 @@ public class SurferPlayercontroller : MonoBehaviour {
     rotation = Input.GetAxis("Horizontal") * RotationFactor();
     transform.Rotate(0, 0, -rotation * RotationFactor());
 
+    if (state != (int)States.Walking && !isInOcean()) {
+      state = (int)States.Walking;
+      GetComponent<Animator>().Play("Standing");
+    }
     if (state == (int)States.Walking && isInOcean())
       ChangeState();
     if (Input.GetButtonDown("Stand"))
