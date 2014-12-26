@@ -11,12 +11,12 @@ public class MapGenerator : MonoBehaviour {
   public const int MAX_DEPTH = 10;
   private int tileSize = 16;
 
-  public int seed = 123;
+  public int seed;
   public Map map;
 
-  void Awake() {
-  }
   public void Start() {
+    this.seed = (int)GetUnixEpoch() % 1000;
+    Random.seed = this.seed;
     BuildMap();
     BuildMesh();
     BuidColliders();
@@ -30,7 +30,6 @@ public class MapGenerator : MonoBehaviour {
 
     map = new Map(width, height);
     //transform.position = new Vector3(transform.position.x, height, transform.position.z);
-    Random.seed = 10; //(int)Random.Range(0, 10000);
     Color c;
     // http://www.colourlovers.com/palette/2105064/sands_of_time
     Color colour_rock = new Color(86/256.0f, 112/256.0f, 126/256.0f, 1.0f);
@@ -148,4 +147,14 @@ public class MapGenerator : MonoBehaviour {
     GetComponent<MeshFilter>().mesh = mesh;
     BuildTexture();
   }
+
+  // http://stackoverflow.com/questions/906034/calculating-future-epoch-time-in-c-sharp
+  private static double GetUnixEpoch()
+  {
+      var unixTime = System.DateTime.Now.ToUniversalTime() - 
+          new System.DateTime(1970, 1, 1, 0, 0, 0);
+
+      return unixTime.TotalSeconds;
+  }
+
 }

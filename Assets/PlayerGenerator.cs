@@ -18,7 +18,4 @@ public class PlayerGenerator : MonoBehaviour {
     player.GetComponent<EnforceBoundaries>().map = gameObject;
     player.transform.parent = transform;
   }
-
-  void FixedUpdate() {
-  }
 }
