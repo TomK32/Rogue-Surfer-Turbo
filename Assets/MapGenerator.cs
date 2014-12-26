@@ -13,6 +13,7 @@ public class MapGenerator : MonoBehaviour {
 
   public int seed;
   public Map map;
+  private GameObject colliderHolder;
 
   public void Start() {
     this.seed = (int)GetUnixEpoch() % 1000;
@@ -81,20 +82,21 @@ public class MapGenerator : MonoBehaviour {
   }
 
   public void BuidColliders() {
-    foreach (Transform child in transform) {
-      if (child.gameObject.tag == "MapCollider") {
-        UnityEngine.Object.Destroy(child.gameObject);
-      }
+    if (colliderHolder) {
+      UnityEngine.Object.DestroyImmediate(colliderHolder);
+      colliderHolder = null;
     }
+    colliderHolder = new GameObject();
+    colliderHolder.transform.parent = transform;
+
     int x, y;
     for (y=0; y < map.height; y++) {
       for (x=0; x < map.width; x++) {
         string collider_name = map.GetTile(x, y).ColliderPrefabName;
-        Debug.Log(collider_name);
         if (collider_name != null) {
           Vector3 position = new Vector3(x, y, 0);
           GameObject collider = (GameObject)Instantiate(Resources.Load(collider_name), position, Quaternion.identity);
-          collider.transform.parent = transform;
+          collider.transform.parent = colliderHolder.transform;
         }
       }
     }
