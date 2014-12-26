@@ -35,28 +35,28 @@ public class MapGenerator : MonoBehaviour {
     // http://www.colourlovers.com/palette/2105064/sands_of_time
     Color colour_rock = new Color(86/256.0f, 112/256.0f, 126/256.0f, 1.0f);
     Color colour_ocean = new Color(97/256.0f, 166/256.0f, 171/256.0f, 1.0f);
-    Color colour_sand = new Color(251/256.0f, 238/256.0f, 191/256.0f, 1.0f);
+    Color colour_sand = new Color(241/256.0f, 228/256.0f, 181/256.0f, 1.0f);
 
     for (int y = 0; y < height; y++) {
       float y_r = (float)y / height;
       for (int x = 0; x < width; x++) {
-        float s_y = Mathf.PerlinNoise(x/64.0f, y_r*32.0f);
-        float s_x = Mathf.PerlinNoise(x*4.0f, y_r/8.0f);
-        if (y_r > 0.6f && s_y > 0.2f && s_y < 0.3f) {
+        float s_y = Mathf.PerlinNoise(seed + x/64.0f, seed + y_r*32.0f);
+        float s_x = Mathf.PerlinNoise(seed + x*4.0f, seed + y_r/8.0f);
+        if (y_r < 0.8f && y_r > 0.6f && s_y > 0.3f && s_y < 0.4f) {
           // rocks
           map.tiles[y,x] = new Rock();
           depth = Random.Range(0.8f, 1.2f) * y_r * - MAX_DEPTH;
           c = colour_rock * Random.Range(0.5f, 1.1f);
-        } else if (s_x - y_r < 0.3f) {
+        } else if (s_x - y_r < 0.2f) {
           // ocean
           map.tiles[y,x] = new Ocean();
           depth = Random.Range(0.8f, 1.2f) * y_r * - MAX_DEPTH;
-          c = colour_ocean * Random.Range(0.9f, 1.0f);
+          c = colour_ocean * Random.Range(0.9f, 1.0f) * (1 - Mathf.Pow(y_r, 6.0f));
         } else {
           // beach
           map.tiles[y,x] = new Beach();
           depth = y * MAX_DEPTH/10;
-          c = colour_sand * Random.Range(0.9f, 1.0f);
+          c = colour_sand * Random.Range(0.8f, 1.0f);
         }
         map.tiles[y,x].position = new Vector3(x, y, depth);
         map.tiles[y,x].setColor(c, width, height);
