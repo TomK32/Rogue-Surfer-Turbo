@@ -10,6 +10,7 @@ TextureImporter:
     21300010: walking
     21300012: paddling 1
     21300014: paddling 2
+    21300016: sign
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -95,9 +96,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 10
-        y: 251
+        y: 256
         width: 40
-        height: 97
+        height: 92
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -106,8 +107,8 @@ TextureImporter:
         serializedVersion: 2
         x: 10
         y: 178
-        width: 40
-        height: 73
+        width: 42
+        height: 77
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,9 +116,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 54
-        y: 252
+        y: 256
         width: 52
-        height: 97
+        height: 93
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -125,9 +126,19 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 117
-        y: 252
+        y: 255
         width: 52
-        height: 97
+        height: 94
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: sign
+      rect:
+        serializedVersion: 2
+        x: 10
+        y: 104
+        width: 63
+        height: 67
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
