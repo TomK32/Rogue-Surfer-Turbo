@@ -3,6 +3,7 @@ using System.Collections;
 
 public class SignCollider : MonoBehaviour {
   public GameObject text;
+  public float destroyAfter = 5.0f;
 
   void OnTriggerExit2D() {
     text.SetActive(false);
@@ -10,5 +11,6 @@ public class SignCollider : MonoBehaviour {
 
 	void OnTriggerEnter2D() {
     text.SetActive(true);
+    Invoke("OnTriggerExit2D", destroyAfter);
 	}
 }
