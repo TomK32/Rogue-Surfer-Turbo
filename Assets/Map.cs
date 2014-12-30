@@ -10,6 +10,7 @@ public class Tile {
   public Vector3 position;
   public Color[] color;
   public int Sort = -1;
+  public float depth = 0.0f; // 1..0 for the beach and 0..-1 for the sea
 
   public Tile() {}
   public string ColliderPrefabName = null;

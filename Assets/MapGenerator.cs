@@ -8,6 +8,7 @@ using System.Collections;
 public class MapGenerator : MonoBehaviour {
 
   // Map Generation Parameters
+  private float sea_beach_ratio = 0.8f;
   public const int MAX_DEPTH = 10;
   private int tileSize = 16;
 
@@ -22,12 +23,9 @@ public class MapGenerator : MonoBehaviour {
     BuildMesh();
     BuidColliders();
   }
-
   public void BuildMap() {
     int height = 28;
     int width = 48;
-
-    float depth = 0.0f;
 
     map = new Map(width, height);
     //transform.position = new Vector3(transform.position.x, height, transform.position.z);
@@ -42,24 +40,24 @@ public class MapGenerator : MonoBehaviour {
       for (int x = 0; x < width; x++) {
         float s_y = Mathf.PerlinNoise(seed + x/64.0f, seed + y_r*32.0f);
         float s_x = Mathf.PerlinNoise(seed + x*4.0f, seed + y_r/8.0f);
+        float depth = (1 - y_r) - sea_beach_ratio + s_y/8;
         if (y_r < 0.8f && y_r > 0.6f && s_y > 0.3f && s_y < 0.4f) {
           // rocks
           map.tiles[y,x] = new Rock();
-          depth = Random.Range(0.8f, 1.2f) * y_r * - MAX_DEPTH;
           c = colour_rock * Random.Range(0.5f, 1.1f);
-        } else if (s_x - y_r < 0.2f) {
+        }
+        if (depth < 0) {
           // ocean
           map.tiles[y,x] = new Ocean();
-          depth = Random.Range(0.8f, 1.2f) * y_r * - MAX_DEPTH;
-          c = colour_ocean * Random.Range(0.9f, 1.0f) * (1 - Mathf.Pow(y_r, 6.0f));
+          c = colour_ocean * Random.Range(0.98f, 1.0f) * (1 - Mathf.Pow(-depth, 2.0f));
         } else {
           // beach
           map.tiles[y,x] = new Beach();
-          depth = y * MAX_DEPTH/10;
-          c = colour_sand * Random.Range(0.8f, 1.0f);
+          c = colour_sand * Random.Range(0.9f, 1.0f);
         }
-        map.tiles[y,x].position = new Vector3(x, y, depth);
+        map.tiles[y,x].position = new Vector3(x, y, 0);
         map.tiles[y,x].setColor(c, width, height);
+        map.tiles[y,x].depth = s_y;
       }
     }
   }
