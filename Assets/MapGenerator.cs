@@ -14,14 +14,13 @@ public class MapGenerator : MonoBehaviour {
 
   public int seed;
   public Map map;
-  private GameObject colliderHolder;
 
   public void Start() {
     this.seed = (int)GetUnixEpoch() % 1000;
     Random.seed = this.seed;
     BuildMap();
     BuildMesh();
-    BuidColliders();
+    BuildColliders();
   }
   public void BuildMap() {
     int height = 28;
@@ -79,12 +78,8 @@ public class MapGenerator : MonoBehaviour {
     mesh_renderer.sharedMaterials[0].mainTexture = texture;
   }
 
-  public void BuidColliders() {
-    if (colliderHolder) {
-      UnityEngine.Object.DestroyImmediate(colliderHolder);
-      colliderHolder = null;
-    }
-    colliderHolder = new GameObject();
+  public void BuildColliders() {
+    GameObject colliderHolder = new GameObject("Map colliders");
     colliderHolder.transform.parent = transform;
 
     int x, y;
