@@ -9,8 +9,10 @@ public class SignCollider : MonoBehaviour {
     text.SetActive(false);
   }
 
-	void OnTriggerEnter2D() {
-    text.SetActive(true);
-    Invoke("OnTriggerExit2D", destroyAfter);
-	}
+  void OnTriggerEnter2D(Collider2D collider) {
+    if (collider.gameObject.tag == "Player") {
+      text.SetActive(true);
+      Invoke("OnTriggerExit2D", destroyAfter);
+    }
+  }
 }
