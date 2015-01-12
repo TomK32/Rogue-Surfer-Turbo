@@ -4,9 +4,9 @@ using System.Collections;
 public class WaveGenerator : MonoBehaviour {
 
   private float dtSinceLastWave;
-  public float waveFrequency = 5f;
-  public float minWaveWidth = 20;
-  public float maxWaveHeight = 3;
+  private float waveFrequency = 5f;
+  private float minWaveWidth = 20;
+  private float minWaveHeight = 3;
 
 	// Use this for initialization
 	void Start () {
@@ -30,7 +30,7 @@ public class WaveGenerator : MonoBehaviour {
     GameObject wave = (GameObject) Instantiate(Resources.Load("Wave"), position, Quaternion.identity);
 
     int width =  (int)(minWaveWidth + seed * minWaveWidth);
-    int height = (int)(maxWaveHeight / 3 + seed * maxWaveHeight);
+    int height = (int)(minWaveHeight + seed * minWaveHeight);
     wave.GetComponent<WaveController>().Randomize(width, height);
     wave.transform.parent = transform;
   }
