@@ -41,19 +41,27 @@ public class SurferPlayercontroller : MonoBehaviour {
   }
 
   void OnTriggerStay2D (Collider2D collider) {
-    rigidbody2D.AddForce(collider.gameObject.GetComponent<WaveController>().ForceOnPlayer() * 20);
+    if (collider.gameObject.tag == "Wave") {
+      Debug.Log(state == (int)States.Surfing);
+      if (state == (int)States.Surfing) {
+        Debug.Log("surf!");
+        rigidbody2D.velocity = (rigidbody2D.velocity + collider.gameObject.rigidbody2D.velocity * Time.fixedDeltaTime) / (1+Time.fixedDeltaTime);
+      } else {
+        rigidbody2D.AddForce(collider.gameObject.GetComponent<WaveController>().ForceOnPlayer() * Time.fixedDeltaTime);
+      }
+    }
   }
 
-	void FixedUpdate () {
+  void FixedUpdate () {
+    rotation = Input.GetAxis("Horizontal") * RotationFactor();
+    transform.Rotate(0, 0, -rotation * RotationFactor());
+
     float input_speed = Input.GetAxis("Vertical") * SpeedFactor();
     if (last_speed > input_speed)
       input_speed = 0;
     last_speed = input_speed;
 
     rigidbody2D.AddForce(gameObject.transform.up * input_speed, ForceMode2D.Force);
-
-    rotation = Input.GetAxis("Horizontal") * RotationFactor();
-    transform.Rotate(0, 0, -rotation * RotationFactor());
 
     if (state != (int)States.Walking && !isInOcean()) {
       state = (int)States.Walking;
