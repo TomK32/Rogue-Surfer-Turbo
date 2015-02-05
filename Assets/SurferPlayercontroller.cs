@@ -53,16 +53,24 @@ public class SurferPlayercontroller : MonoBehaviour {
   }
 
   void FixedUpdate () {
-    rotation = Input.GetAxis("Horizontal") * RotationFactor();
-    transform.Rotate(0, 0, -rotation * RotationFactor());
+    if (state == (int)States.Walking) {
+      // while walking at the beach we use WASD to move up/left/down/right
+      //moveDirection = transform.TransformDirection(moveDirection);
+      transform.Translate(new Vector3(
+            (Input.GetAxis("Horizontal") > 0.2f ? 1 : (Input.GetAxis("Horizontal") < -0.2f ? -1 : 0)),
+            (Input.GetAxis("Vertical") > 0.2f ? 1 : (Input.GetAxis("Vertical") < -0.2f ? -1 : 0)),
+            0 ) * SpeedFactor());
+    } else {
+      // while paddling or surfing we treat WASD differently
+      rotation = Input.GetAxis("Horizontal") * RotationFactor();
+      transform.Rotate(0, 0, -rotation * RotationFactor());
+      float input_speed = Input.GetAxis("Vertical") * SpeedFactor();
+      if (last_speed > input_speed)
+        input_speed = 0;
+      last_speed = input_speed;
 
-    float input_speed = Input.GetAxis("Vertical") * SpeedFactor();
-    if (last_speed > input_speed)
-      input_speed = 0;
-    last_speed = input_speed;
-
-    rigidbody2D.AddForce(gameObject.transform.up * input_speed, ForceMode2D.Force);
-
+      rigidbody2D.AddForce(gameObject.transform.up * input_speed, ForceMode2D.Force);
+    }
     if (state != (int)States.Walking && !isInOcean()) {
       state = (int)States.Walking;
       GetComponent<Animator>().Play("Standing");
