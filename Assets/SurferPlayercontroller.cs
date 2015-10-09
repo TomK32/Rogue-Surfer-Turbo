@@ -14,15 +14,15 @@ public class SurferPlayercontroller : MonoBehaviour {
   public int state;
   private float last_speed;
 
-	// Use this for initialization
-	void Start () {
+  // Use this for initialization
+  void Start () {
     rotation = 0.0f;
     SetState((int)States.Walking);
 
-	  float verticalSize = Camera.main.orthographicSize;
+    float verticalSize = Camera.main.orthographicSize;
     float horizontalSize = (float) verticalSize * Screen.width / Screen.height;
     transform.Translate(new Vector3(horizontalSize * 0.8f, verticalSize * 0.2f, 0.0f));
-	}
+  }
 
   float RotationFactor() {
     return rotationFactors[state];
@@ -45,9 +45,9 @@ public class SurferPlayercontroller : MonoBehaviour {
       Debug.Log(state == (int)States.Surfing);
       if (state == (int)States.Surfing) {
         Debug.Log("surf!");
-        rigidbody2D.velocity = (rigidbody2D.velocity + collider.gameObject.rigidbody2D.velocity * Time.fixedDeltaTime) / (1+Time.fixedDeltaTime);
+  	    GetComponent<Rigidbody2D>().velocity = (GetComponent<Rigidbody2D>().velocity + collider.gameObject.GetComponent<Rigidbody2D>().velocity * Time.fixedDeltaTime) / (1+Time.fixedDeltaTime);
       } else {
-        rigidbody2D.AddForce(collider.gameObject.GetComponent<WaveController>().ForceOnPlayer() * Time.fixedDeltaTime);
+      	 GetComponent<Rigidbody2D>().AddForce(collider.gameObject.GetComponent<WaveController>().ForceOnPlayer() * Time.fixedDeltaTime);
       }
     }
   }
@@ -69,7 +69,7 @@ public class SurferPlayercontroller : MonoBehaviour {
         input_speed = 0;
       last_speed = input_speed;
 
-      rigidbody2D.AddForce(gameObject.transform.up * input_speed, ForceMode2D.Force);
+      GetComponent<Rigidbody2D>().AddForce(gameObject.transform.up * input_speed, ForceMode2D.Force);
     }
     if (state != (int)States.Walking && !isInOcean()) {
       state = (int)States.Walking;
@@ -79,7 +79,7 @@ public class SurferPlayercontroller : MonoBehaviour {
       ChangeState();
     if (Input.GetButtonDown("Stand"))
       ChangeState();
-	}
+  }
 
   bool isInOcean() {
     Tile tile = map.GetTile((int)transform.position.x, (int)transform.position.y);
@@ -89,7 +89,7 @@ public class SurferPlayercontroller : MonoBehaviour {
   void ChangeState() {
     if (state == (int)States.Walking) {
       GetComponent<Animator>().Play("Paddling");
-      gameObject.rigidbody2D.velocity = new Vector2(0, 0); // stop all movement
+      gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0); // stop all movement
       SetState((int)States.Paddling);
     } else if (state == (int)States.Paddling) {
       GetComponent<Animator>().Play("Surfing");
@@ -102,6 +102,6 @@ public class SurferPlayercontroller : MonoBehaviour {
 
   void SetState(int state) {
     this.state = state;
-    gameObject.rigidbody2D.drag = this.linearDrag[state];
+    gameObject.GetComponent<Rigidbody2D>().drag = this.linearDrag[state];
   }
 }

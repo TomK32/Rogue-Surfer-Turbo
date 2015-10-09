@@ -4,11 +4,11 @@ using System.Collections;
 public class DestroyAfterAnimation : MonoBehaviour {
 
   // Will be set to the gameobject's animation by default.
-  public Animation animation;
+  new public Animation animation;
   private bool hasBeenPlayed = false;
 
 	void LateUpdate () {
-	  if (!animation) { animation = gameObject.animation; }
+	  if (!animation) { animation = gameObject.GetComponent<Animation>(); }
     if (!hasBeenPlayed && animation.isPlaying) {
       hasBeenPlayed = true;
     }
