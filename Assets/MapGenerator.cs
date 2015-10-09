@@ -42,16 +42,16 @@ public class MapGenerator : MonoBehaviour {
         float depth = (1 - y_r) - sea_beach_ratio + s_y/8;
         if (y_r < 0.8f && y_r > 0.6f && s_y > 0.3f && s_y < 0.4f) {
           // rocks
-          map.tiles[y,x] = new Rock();
+          map.tiles[y,x] = new Tile(Tile.Sorts.Rock);
           c = colour_rock * Random.Range(0.5f, 1.1f);
         }
         if (depth < 0) {
           // ocean
-          map.tiles[y,x] = new Ocean();
+          map.tiles[y,x] = new Tile(Tile.Sorts.Ocean);
           c = colour_ocean * Random.Range(0.98f, 1.0f) * (1 - Mathf.Pow(-depth, 2.0f));
         } else {
           // beach
-          map.tiles[y,x] = new Beach();
+          map.tiles[y,x] = new Tile(Tile.Sorts.Beach);
           c = colour_sand * Random.Range(0.9f, 1.0f);
         }
         map.tiles[y,x].position = new Vector3(x, y, 0);
